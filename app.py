@@ -18,7 +18,6 @@ def ask():
     try:
         data = request.json
         question = data.get("question", "")
-        
         response = requests.post(
             f"https://api-inference.huggingface.co/models/{MODEL}",
             headers={"Authorization": f"Bearer {HF_TOKEN}"},
@@ -31,7 +30,6 @@ def ask():
                 }
             }
         )
-        
         result = response.json()
         answer = result[0].get("generated_text", "Could not get answer.")
         return jsonify({"answer": answer})
@@ -39,5 +37,5 @@ def ask():
         return jsonify({"answer": f"Error: {str(e)}"}), 500
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
